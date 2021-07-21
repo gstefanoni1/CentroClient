@@ -1,4 +1,4 @@
-package centroVaccinale.controller;
+package controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
