@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="centroVaccinale.controller.RegistraCentroController">
+   <children>
+      <SplitPane dividerPositions="0.16114457831325302" layoutX="110.0" layoutY="107.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="128.0" layoutY="31.0" text="Registrazione Centro Vaccinale" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="44.0" layoutY="57.0" text="Nome " AnchorPane.bottomAnchor="303.59999999999997" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="352.4" AnchorPane.topAnchor="11.0" />
+                  <TextField fx:id="nCentro" layoutX="224.0" layoutY="15.0" AnchorPane.bottomAnchor="295.59999999999997" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                  <Label layoutX="14.0" layoutY="55.0" text="Indirizzo" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="342.79999999999995" AnchorPane.topAnchor="47.0" />
+                  <TextField fx:id="indirizzo" layoutX="162.0" layoutY="45.0" AnchorPane.bottomAnchor="260.59999999999997" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+                  <ChoiceBox fx:id="qualificatore" layoutX="10.0" layoutY="45.0" prefWidth="150.0" value="Via" AnchorPane.bottomAnchor="260.59999999999997" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="45.0">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Via" />
+                              <String fx:value="Piazza" />
+                              <String fx:value="Viale" />
+                          </FXCollections>
+                      </items>
+                  </ChoiceBox>
+                  <Label layoutX="14.0" layoutY="84.0" text="N° civico" AnchorPane.bottomAnchor="233.6" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="341.2" AnchorPane.topAnchor="84.0" />
+                  <TextField fx:id="nCivico" layoutX="70.0" layoutY="76.0" AnchorPane.bottomAnchor="225.6" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="80.0" />
+                  <Label layoutX="126.0" layoutY="84.0" text="Comune" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="203.59999999999997" AnchorPane.topAnchor="84.0" />
+                  <TextField fx:id="comune" layoutX="176.0" layoutY="80.0" AnchorPane.leftAnchor="206.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
+                  <Label layoutX="19.0" layoutY="123.0" text="CAP" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="118.0" />
+                  <TextField fx:id="cap" layoutX="76.0" layoutY="114.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="115.0" />
+                  <Label layoutX="158.0" layoutY="119.0" text="Sgl. Provincia" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="118.0" />
+                  <TextField fx:id="provincia" layoutX="206.0" layoutY="115.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="115.0" />
+                  <Label layoutX="14.0" layoutY="157.0" text="Tipologia" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="152.0" />
+                  <ChoiceBox fx:id="tipologia" layoutX="75.0" layoutY="153.0" prefWidth="150.0" value="Ospedaliero" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="150.0">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Ospedaliero" />
+                              <String fx:value="Aziendale" />
+                              <String fx:value="HUB" />
+                          </FXCollections>
+                      </items>
+                  </ChoiceBox>
+                  <ButtonBar layoutX="184.0" layoutY="277.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                    <buttons>
+                      <Button fx:id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" text="Annulla" />
+                        <Button fx:id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCentro" text="Crea" />
+                    </buttons>
+                  </ButtonBar>
+                  <Label layoutX="21.0" layoutY="198.0" text="**Tutti i campi sono obbligatori" textFill="#d70303" AnchorPane.leftAnchor="10.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
