@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistraCentroController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistraCentroController">
    <children>
       <SplitPane dividerPositions="0.16114457831325302" layoutX="110.0" layoutY="107.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -19,7 +19,7 @@
                <children>
                   <Label alignment="CENTER" layoutX="128.0" layoutY="31.0" text="Registrazione Centro Vaccinale" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Light" size="24.0" />
                      </font>
                   </Label>
                </children>
@@ -59,8 +59,8 @@
                   </ChoiceBox>
                   <ButtonBar layoutX="184.0" layoutY="277.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                     <buttons>
-                      <Button fx:id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" text="Annulla" />
-                        <Button fx:id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCentro" text="Crea" />
+                      <Button fx:id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" styleClass="but" text="Annulla" />
+                        <Button fx:id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCentro" styleClass="but" text="Crea" />
                     </buttons>
                   </ButtonBar>
                   <Label layoutX="21.0" layoutY="198.0" text="**Tutti i campi sono obbligatori" textFill="#d70303" AnchorPane.leftAnchor="10.0" />

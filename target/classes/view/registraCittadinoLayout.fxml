@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistraCittadinoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistraCittadinoController">
    <children>
       <SplitPane dividerPositions="0.15863453815261047" layoutX="133.0" layoutY="57.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -20,7 +20,7 @@
                <children>
                   <Label alignment="CENTER" layoutX="198.0" layoutY="22.0" text="Registrazione Cittadino" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Light" size="24.0" />
                      </font>
                   </Label>
                </children>
@@ -43,7 +43,7 @@
                   <DatePicker fx:id="dataSomm" layoutX="152.0" layoutY="153.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="150.0" />
                   <Label layoutX="27.0" layoutY="145.0" text="Data somministrazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="153.0" />
                   <Label layoutX="12.0" layoutY="189.0" text="Vaccino" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="185.0" />
-                  <ChoiceBox fx:id="vaccino" layoutX="67.0" layoutY="181.0" prefWidth="150.0" value="Pfizer" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="185.0">
+                  <ChoiceBox fx:id="vaccino" layoutX="67.0" layoutY="181.0" prefWidth="150.0" styleClass="combo-box-base" value="Pfizer" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="185.0">
                       <items>
                           <FXCollections fx:factory="observableArrayList">
                               <String fx:value="Pfizer" />
@@ -55,8 +55,8 @@
                   </ChoiceBox>
                   <ButtonBar layoutX="294.0" layoutY="278.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                     <buttons>
-                      <Button id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" text="Annulla" />
-                        <Button id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCittadino" text="Registra" />
+                      <Button id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" styleClass="but" text="Annulla" />
+                        <Button id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCittadino" styleClass="but" text="Registra" />
                     </buttons>
                   </ButtonBar>
                   <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="225.0" />
