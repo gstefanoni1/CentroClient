@@ -47,13 +47,48 @@ public class RegistraCentroController {
     }
 
     private boolean verificaCampi() {
-        if(nCentro.getText().equals("") || indirizzo.getText().equals("") || nCivico.getText().equals("")
-        || comune.getText().equals("") || provincia.getText().equals("") || qualificatore.getValue().equals("")
-        || tipologia.getValue().equals("")){
-            return false;
-        }
+        boolean verified = true;
+        if (nCentro.getText().equals(""))
+            verified = setColorBorder(nCentro, "red");
+        else
+            setColorBorder(nCentro, "transparent");
 
-        return true;
+        if (indirizzo.getText().equals(""))
+            verified = setColorBorder(indirizzo, "red");
+        else
+            setColorBorder(indirizzo, "transparent");
+
+        if (nCivico.getText().equals(""))
+            verified = setColorBorder(nCivico, "red");
+        else
+            setColorBorder(nCivico, "transparent");
+
+        if (cap.getText().equals(""))
+            verified = setColorBorder(cap, "red");
+        else
+            setColorBorder(cap, "transparent");
+
+        if (comune.getText().equals(""))
+            verified = setColorBorder(comune, "red");
+        else
+            setColorBorder(comune, "transparent");
+
+        if (provincia.getText().equals(""))
+            verified = setColorBorder(provincia, "red");
+        else
+            setColorBorder(provincia, "transparent");
+
+        if (qualificatore.getValue().equals(""))
+            verified = setColorBorder(qualificatore, "red");
+        else
+            setColorBorder(qualificatore, "transparent");
+
+        if (tipologia.getValue().equals(""))
+            verified = setColorBorder(tipologia, "red");
+        else
+            setColorBorder(tipologia, "transparent");
+
+        return verified;
     }
 
     private boolean setColorBorder(Control component, String color){
