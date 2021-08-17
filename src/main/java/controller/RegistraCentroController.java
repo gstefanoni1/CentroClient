@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -53,5 +54,10 @@ public class RegistraCentroController {
         }
 
         return true;
+    }
+
+    private boolean setColorBorder(Control component, String color){
+        component.setStyle("-fx-border-color: " + color + ";");
+        return false;
     }
 }
