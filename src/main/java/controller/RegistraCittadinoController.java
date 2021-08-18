@@ -31,8 +31,17 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Classe per controllare la registrazione del cittadino appena vaccinato
+ * @author Stefanoni Gianluca
+ * @version 1.0
+ */
 public class RegistraCittadinoController implements Initializable, PacketReceivedListener {
 
+    /**
+     * Variabili per i componenti dell'interfaccia grafica
+     */
+    //region Variabili FXML
     @FXML
     private Button annulla;
     @FXML
@@ -49,28 +58,57 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     private ChoiceBox<String> centro;
     @FXML
     private ChoiceBox<String> vaccino;
-
+    //endregion
+    /**
+     * date utilizzata per la formattazione in tipo Date e inserimento in vaccinazione
+     */
     private String date;
+    /**
+     * Regex per verificare il codice fiscale
+     */
     private static final String COD_FISCALE_REGEX = "^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$";
+    /**
+     * pattern e matcher sono utilizzate pre verificare le regex
+     */
     private static Pattern pattern;
     private Matcher matcher;
+    /**
+     * centriVaccinali contiene la lista di tutti i centri vaccinali
+     */
     private ArrayList<CentroVaccinale> centriVaccinali;
+    /**
+     * nomiCV per inswerire i nomi di tutti i centri all'interno di ChoiceBox<String> centro
+     */
     private ObservableList<String> nomiCV;
+    /**
+     * centroSel per salvare temporaneamente il centro selezionato in ChoiceBox<String> centro
+     */
     private CentroVaccinale centroSel;
+    /**
+     * client è l'istanza del client connesso al server
+     */
     private ClientHandler client;
+    /**
+     * id per salvare temporaneament e mostrare all'utente l'id della vaccinazione
+     */
     private String id;
 
+    /**
+     * Metodo invocato dal bottone @annulla al click, per chiudere la schermata
+     * @param mouseEvent
+     */
     public void annullaIserimento(MouseEvent mouseEvent) {
         Node source = (Node) mouseEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Metodo invocato dal bottone @crea al click, per inserire il cittadino appena vaccinato a DB
+     * @param mouseEvent
+     */
     public void inserisciCittadino(MouseEvent mouseEvent) {
-        //verifica compilazione campi
-        if(!verificaCampi()) return;
-        //Inserimento nel db
-        //Se andato a buon fine deve restituire l'id della vaccinazione
+        if (!verificaCampi()) return;
         Vaccinato vaccinato = new Vaccinato();
         vaccinato.setNome(nome.getText());
         vaccinato.setCognome(cognome.getText());
@@ -92,6 +130,10 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
 
     }
 
+    /**
+     * Metodo invocato da inserisciCittadino(MouseEvent mouseEvent), per verificare la corretta compilazione dei campi
+     * @return true se tutti  i campi sono stati compilati correttamente
+     */
     private boolean verificaCampi() {
         boolean verified = true;
         if (nome.getText().equals(""))
@@ -107,9 +149,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         if (codFiscale.getText().equals(""))
             verified = setColorBorder(codFiscale, "red");
         else {
-            if(verificaCodFiscale(codFiscale.getText()))
+            if (verificaCodFiscale(codFiscale.getText()))
                 setColorBorder(codFiscale, "transparent");
-            else{
+            else {
                 verified = setColorBorder(codFiscale, "red");
                 Alert alertCod = new Alert(Alert.AlertType.ERROR);
                 alertCod.setTitle("");
@@ -141,51 +183,79 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         return verified;
     }
 
+    /**
+     * Metodo per verificare con regex se il codice fiscale è valido
+     * @param codFiscale stringa da verificare
+     * @return true se il codice è valido
+     */
     private boolean verificaCodFiscale(String codFiscale) {
         pattern = Pattern.compile(COD_FISCALE_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(codFiscale);
         return matcher.matches();
     }
 
-    private boolean setColorBorder(Control component, String color){
+    /**
+     * Metodo per settare il colore del bordo di un componentre grafico
+     * @param component componente da modificare
+     * @param color colore da settare
+     * @return sempre false
+     */
+    private boolean setColorBorder(Control component, String color) {
         component.setStyle("-fx-border-color: " + color + ";");
         return false;
     }
 
+    /**
+     * Metodo invocato durante l'inizializzazione della finestra, per settare il client e richidere al server
+     * l'elenco di tutti i centri vaccinali
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client = ClientHandler.getInstance();
         this.client.addListener(GetCVResponse.class.toString(), this);
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
-        //Recuperare tutti cv
+        client.getAllCV();
 
     }
 
-    private void setNomiList(){
-        for (CentroVaccinale c: centriVaccinali){
+    /**
+     * Metodo per caricare i nomi dei Centri allinterno di ChoiceBox<String> centro,
+     * inoltre aggiunge un listener per verificare il cambiamento di item selezionato
+     */
+    private void setNomiList() {
+        for (CentroVaccinale c : centriVaccinali) {
             nomiCV.add(c.getNome());
         }
         centro.setItems(nomiCV);
         centro.getSelectionModel()
                 .selectedItemProperty()
-                .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue)
-                        -> setCentroSel(newValue) );
+                .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue)
+                        -> setCentroSel(newValue));
     }
 
+    /**
+     * Metodo per settare il centro selezionato in ChoiceBox<String> centro
+     * @param newValue
+     */
     private void setCentroSel(String newValue) {
-        for(CentroVaccinale cv: centriVaccinali){
-            if(cv.getNome().equals(newValue))
+        for (CentroVaccinale cv : centriVaccinali) {
+            if (cv.getNome().equals(newValue))
                 centroSel = cv;
         }
     }
 
+    /**
+     * Metodo per gestire la ricezione dei pacchetti: RegistrationVaccinatedResponse, GetCVResponse
+     * @param packet pacchetto ricevuto
+     */
     @Override
     public void onPacketReceived(Packet packet) {
-        if(packet instanceof RegistrationVaccinatedResponse){
+        if (packet instanceof RegistrationVaccinatedResponse) {
             RegistrationVaccinatedResponse res = (RegistrationVaccinatedResponse) packet;
             System.out.println(res.getPacketName() + " " + res.isEsito());
-            if(res.isEsito()) {
-                //Alert con id da dare al cittadino
+            if (res.isEsito()) {
                 id = res.getChiave();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informazioni cittadino: " + codFiscale.getText());
@@ -195,8 +265,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
 
                 Stage stage = (Stage) nome.getScene().getWindow();
                 stage.close();
-            }else{
-                //Alert errore
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Errore");
                 alert.setHeaderText(null);
@@ -205,7 +274,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             }
         }
 
-        if(packet instanceof GetCVResponse){
+        if (packet instanceof GetCVResponse) {
             GetCVResponse res = (GetCVResponse) packet;
             List<CentroVaccinale> list = res.getCvList();
             centriVaccinali.addAll(list);

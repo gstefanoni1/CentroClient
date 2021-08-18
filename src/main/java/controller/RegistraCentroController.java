@@ -17,7 +17,16 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Classe per controllare la registrazione di un centro vaccinale
+ * @author Stefanoni Gianluca
+ * @version 1.0
+ */
 public class RegistraCentroController implements Initializable, PacketReceivedListener {
+    /**
+     * Variabili per i componenti dell'interfaccia grafica
+     */
+    //region Variabili FXML
     @FXML
     private Button annulla;
     @FXML
@@ -38,16 +47,26 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
     private ChoiceBox<String> qualificatore;
     @FXML
     private ChoiceBox<String> tipologia;
-
+    //endregion
+    /**
+     * client è l'istanza del client connesso al server
+     */
     private ClientHandler client;
 
-
+    /**
+     * Metodo invocato dal bottone @annulla al click, per chiudere la schermata
+     * @param mouseEvent
+     */
     public void annullaIserimento(MouseEvent mouseEvent) {
         Node source = (Node) mouseEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Metodo invocato dal bottone @crea al click, per inserire il centro vaccinale a DB
+     * @param mouseEvent
+     */
     public void inserisciCentro(MouseEvent mouseEvent) {
         //verifica compilazione campi
         if(!verificaCampi()) return;
@@ -65,7 +84,10 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
 
         client.insertCV(cv);
     }
-
+    /**
+     * Metodo invocato da inserisciCentro(MouseEvent mouseEvent), per verificare la corretta compilazione dei campi
+     * @return true se tutti  i campi sono stati compilati correttamente
+     */
     private boolean verificaCampi() {
         boolean verified = true;
         if (nCentro.getText().equals(""))
@@ -110,12 +132,20 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
 
         return verified;
     }
-
+    /**
+     * Metodo per settare il colore del bordo di un componentre grafico
+     * @param component componente da modificare
+     * @param color colore da settare
+     * @return sempre false
+     */
     private boolean setColorBorder(Control component, String color){
         component.setStyle("-fx-border-color: " + color + ";");
         return false;
     }
-
+    /**
+     * Metodo per gestire la ricezione del pacchetto RegistrationCVResponse
+     * @param packet pacchetto ricevuto
+     */
     @Override
     public void onPacketReceived(Packet packet) {
         if(packet instanceof RegistrationCVResponse){
@@ -125,7 +155,11 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
             stage.close();
         }
     }
-
+    /**
+     * Metodo invocato durante l'inizializzazione della finestra, per settare il client
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client = ClientHandler.getInstance();

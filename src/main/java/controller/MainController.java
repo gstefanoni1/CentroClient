@@ -13,14 +13,30 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Classe per controllare gli eventi nel menu principale
+ * @author Stefanoni Gianluca
+ * @version 1.0
+ */
 public class MainController implements Initializable {
+    /**
+     * Variabili per i componenti dell'interfaccia grafica
+     */
+    //region Variabili FXML
     @FXML
     private Button rCentro;
     @FXML
     private Button rCittadino;
-
+    //endregion
+    /**
+     * client è l'istanza del client connesso al server
+     */
     private static ClientHandler client;
 
+    /**
+     * Metodo per aprire la schermata di registrazione centro vaccinale
+     * @param mouseEvent
+     */
     public void registraCentro(MouseEvent mouseEvent) {
         Parent root;
         try {
@@ -37,7 +53,10 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Metodo per aprire la schermata di registrazione cittadino appena vaccinato
+     * @param mouseEvent
+     */
     public void registraCittadino(MouseEvent mouseEvent) {
         Parent root;
         try {
@@ -55,6 +74,11 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Metodo per iniziallizzare il collegamento tra client e server
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client = new ClientHandler();
