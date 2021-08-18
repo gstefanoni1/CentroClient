@@ -1,5 +1,11 @@
 package controller;
+import client.ClientHandler;
+import client.PacketReceivedListener;
+import datatypes.CentroVaccinale;
+import datatypes.protocolmessages.Packet;
+import datatypes.protocolmessages.RegistrationCVResponse;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -8,7 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class RegistraCentroController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class RegistraCentroController implements Initializable, PacketReceivedListener {
     @FXML
     private Button annulla;
     @FXML
@@ -30,6 +39,8 @@ public class RegistraCentroController {
     @FXML
     private ChoiceBox<String> tipologia;
 
+    private ClientHandler client;
+
 
     public void annullaIserimento(MouseEvent mouseEvent) {
         Node source = (Node) mouseEvent.getSource();
@@ -41,9 +52,18 @@ public class RegistraCentroController {
         //verifica compilazione campi
         if(!verificaCampi()) return;
         //Inserimento nel db
-        Node source = (Node) mouseEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        CentroVaccinale cv = new CentroVaccinale();
+        cv.setComune(comune.getText());
+        cv.setTipologia(tipologia.getValue());
+        cv.setNome(nCentro.getText());
+        //cv.setId();
+        cv.setCap(cap.getText());
+        cv.setNomeIndirizzo(indirizzo.getText());
+        cv.setNumero(nCivico.getText());
+        cv.setQualificatore(qualificatore.getValue());
+        cv.setSiglaProvincia(provincia.getText());
+
+        client.insertCV(cv);
     }
 
     private boolean verificaCampi() {
@@ -94,5 +114,21 @@ public class RegistraCentroController {
     private boolean setColorBorder(Control component, String color){
         component.setStyle("-fx-border-color: " + color + ";");
         return false;
+    }
+
+    @Override
+    public void onPacketReceived(Packet packet) {
+        if(packet instanceof RegistrationCVResponse){
+            RegistrationCVResponse res = (RegistrationCVResponse) packet;
+            System.out.println(res.getPacketName() + " " + res.isEsito());
+            Stage stage = (Stage) nCentro.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        client = ClientHandler.getInstance();
+        this.client.addListener(RegistrationCVResponse.class.toString(), this);
     }
 }
