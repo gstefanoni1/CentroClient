@@ -5,15 +5,16 @@ import datatypes.CentroVaccinale;
 import datatypes.protocolmessages.Packet;
 import datatypes.protocolmessages.RegistrationCVResponse;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -58,9 +59,22 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
      * @param mouseEvent
      */
     public void annullaIserimento(MouseEvent mouseEvent) {
-        Node source = (Node) mouseEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 500, 300);
+            Stage stage = new Stage();
+            stage.setTitle("Centro Vaccinale");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+
+            Stage thisStage = (Stage) nCentro.getScene().getWindow();
+            thisStage.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,8 +165,31 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         if(packet instanceof RegistrationCVResponse){
             RegistrationCVResponse res = (RegistrationCVResponse) packet;
             System.out.println(res.getPacketName() + " " + res.isEsito());
-            Stage stage = (Stage) nCentro.getScene().getWindow();
-            stage.close();
+            if(res.isEsito()) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+                    Stage stage = new Stage();
+                    stage.setTitle("Centro Vaccinale");
+                    stage.getIcons().add(new Image(String.valueOf(getClass().getResource("img/icon.png"))));
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.show();
+
+                    Stage thisStage = (Stage) nCentro.getScene().getWindow();
+                    thisStage.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setHeaderText(null);
+                alert.setContentText("Errore nell'invio delle informazioni, riprovare");
+                alert.showAndWait();
+            }
         }
     }
     /**

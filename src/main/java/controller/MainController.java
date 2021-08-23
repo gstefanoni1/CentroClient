@@ -3,9 +3,11 @@ import client.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -45,9 +47,13 @@ public class MainController implements Initializable {
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             Stage stage = new Stage();
             stage.setTitle("Registra Centro Vaccinale");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
+            Node source = (Node) mouseEvent.getSource();
+            Stage thisStage = (Stage) source.getScene().getWindow();
+            thisStage.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -65,9 +71,14 @@ public class MainController implements Initializable {
             Scene scene = new Scene(fxmlLoader.load(), 500, 400);
             Stage stage = new Stage();
             stage.setTitle("Registra Cittadino");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
+
+            Node source = (Node) mouseEvent.getSource();
+            Stage thisStage = (Stage) source.getScene().getWindow();
+            thisStage.close();
         }
         catch (IOException e) {
             e.printStackTrace();
