@@ -6,10 +6,7 @@ import datatypes.CentroVaccinale;
 import datatypes.Vaccinato;
 import datatypes.Vaccinazione;
 import datatypes.Vaccino;
-import datatypes.protocolmessages.GetCVResponse;
-import datatypes.protocolmessages.Packet;
-import datatypes.protocolmessages.RegistrationCVResponse;
-import datatypes.protocolmessages.RegistrationVaccinatedResponse;
+import datatypes.protocolmessages.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -102,22 +99,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
      * @param mouseEvent
      */
     public void annullaIserimento(MouseEvent mouseEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 500, 300);
-            Stage stage = new Stage();
-            stage.setTitle("Centro Vaccinale");
-            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
-            Stage thisStage = (Stage) nome.getScene().getWindow();
-            thisStage.close();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        chiudi();
     }
 
     /**
@@ -233,7 +215,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         client = ClientHandler.getInstance();
         this.client.addListener(GetCVResponse.class.toString(), this);
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
+        this.client.addListener(GetVaccinesResponse.class.toString(), this);
         client.getAllCV();
+        client.getVaccines();
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
     }
 
@@ -280,22 +264,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
                 alert.setContentText("ID vaccinazione: " + id);
                 alert.showAndWait();
 
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
-                    Scene scene = new Scene(fxmlLoader.load(), 400, 400);
-                    Stage stage = new Stage();
-                    stage.setTitle("Centro Vaccinale");
-                    stage.getIcons().add(new Image(String.valueOf(getClass().getResource("img/icon.png"))));
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
-
-                    Stage thisStage = (Stage) nome.getScene().getWindow();
-                    thisStage.close();
-                }catch (IOException e) {
-                    e.printStackTrace();
-                }
+                chiudi();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Errore");
@@ -307,9 +276,54 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
 
         if (packet instanceof GetCVResponse) {
             GetCVResponse res = (GetCVResponse) packet;
-            List<CentroVaccinale> list = res.getCvList();
-            centriVaccinali.addAll(list);
-            setNomiList();
+            if(res.isEsito()) {
+                List<CentroVaccinale> list = res.getCvList();
+                centriVaccinali.addAll(list);
+                setNomiList();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setContentText("Impossibile recuperare informazioni dal server");
+                alert.showAndWait();
+                chiudi();
+            }
+        }
+
+        if (packet instanceof GetVaccinesResponse){
+            GetVaccinesResponse res = (GetVaccinesResponse) packet;
+            if(res.isEsito()){
+                for (Vaccino v : res.getVaccines()){
+                    vaccino.getItems().add(v.getNome());
+                }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setContentText("Impossibile recuperare informazioni dal server");
+                alert.showAndWait();
+                chiudi();
+            }
+        }
+    }
+
+    /**
+     * Metodo utilizzato per chiudere la finsestra
+     */
+    private void chiudi(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 500, 300);
+            Stage stage = new Stage();
+            stage.setTitle("Centro Vaccinale");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+
+            Stage thisStage = (Stage) nome.getScene().getWindow();
+            thisStage.close();
+        }catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
