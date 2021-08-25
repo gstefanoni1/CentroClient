@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,9 +27,11 @@ public class MainController implements Initializable {
      */
     //region Variabili FXML
     @FXML
-    private Button rCentro;
+    private Button buttCentro;
     @FXML
-    private Button rCittadino;
+    private Button buttVaccinato;
+    @FXML
+    private AnchorPane serverError;
     //endregion
     /**
      * client è l'istanza del client connesso al server
@@ -93,8 +96,34 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client = ClientHandler.getInstance();
+        if(!client.isConnected()) {
+            try {
+                if(!client.connect()){
+                    buttCentro.setDisable(true);
+                    buttVaccinato.setDisable(true);
+                    serverError.setVisible(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Metodo per ritentare la connesione dopo che è fallita
+     * @param mouseEvent
+     */
+    public void retryConnect(MouseEvent mouseEvent) {
         try {
-            client.connect();
+            if(client.connect()){
+                buttCentro.setDisable(true);
+                buttVaccinato.setDisable(true);
+                serverError.setVisible(true);
+            }else{
+                buttCentro.setDisable(false);
+                buttVaccinato.setDisable(false);
+                serverError.setVisible(false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,15 +6,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@Style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11" fx:controller="controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <Label alignment="CENTER" text="Centro Vaccinale" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font name="Segoe UI Light" size="24.0" />
          </font>
       </Label>
-      <Button id="rCentro" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#registraCentro" prefHeight="35.0" styleClass="but" text="Registra centro vaccinale" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-      <Button id="rCittadino" mnemonicParsing="false" onMouseClicked="#registraCittadino" prefHeight="35.0" prefWidth="52.0" styleClass="but" text="Registra cittadino vaccinato" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <Button id="rCentro" fx:id="buttCentro" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#registraCentro" prefHeight="35.0" styleClass="but" text="Registra centro vaccinale" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <Button id="rCittadino" fx:id="buttVaccinato" mnemonicParsing="false" onMouseClicked="#registraCittadino" prefHeight="35.0" prefWidth="52.0" styleClass="but" text="Registra cittadino vaccinato" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
       <Separator layoutX="138.0" layoutY="81.0" prefWidth="200.0" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="162.0" AnchorPane.topAnchor="81.0" />
+      <AnchorPane fx:id="serverError" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label alignment="CENTER" layoutX="336.0" layoutY="118.0" styleClass="label-server" text="Connessione al server fallita" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="170.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="324.0" layoutY="278.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#retryConnect" prefWidth="100.0" styleClass="but" text="Riprova" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

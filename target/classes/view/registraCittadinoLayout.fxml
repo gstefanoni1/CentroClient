@@ -7,62 +7,57 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistraCittadinoController">
    <children>
-      <SplitPane dividerPositions="0.15863453815261047" layoutX="133.0" layoutY="57.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <Label alignment="CENTER" layoutX="198.0" layoutY="22.0" text="Registrazione Cittadino" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                     <font>
-                        <Font name="Segoe UI Light" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <ChoiceBox fx:id="centro" layoutX="145.0" layoutY="35.0" prefWidth="150.0" value="Predef" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                  <Label layoutX="48.0" layoutY="18.0" text="Centro di vaccinazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0" />
-                  <Label alignment="CENTER" layoutX="21.0" layoutY="50.0" text="Dati cittadino" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="84.0" text="Nome" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="455.59999999999997" AnchorPane.topAnchor="83.0" />
-                  <TextField fx:id="nome" layoutX="66.0" layoutY="77.0" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="80.0" />
-                  <Label layoutX="235.0" layoutY="83.0" text="Cognome" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="83.0" />
-                  <TextField fx:id="cognome" layoutX="303.0" layoutY="79.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
-                  <Label layoutX="12.0" layoutY="119.0" text="Cod. Fiscale" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="118.0" />
-                  <TextField fx:id="codFiscale" layoutX="100.0" layoutY="114.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="115.0" />
-                  <DatePicker fx:id="dataSomm" layoutX="152.0" layoutY="153.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="150.0" />
-                  <Label layoutX="27.0" layoutY="145.0" text="Data somministrazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="153.0" />
-                  <Label layoutX="12.0" layoutY="189.0" text="Vaccino" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="185.0" />
-                  <ChoiceBox fx:id="vaccino" layoutX="67.0" layoutY="181.0" prefWidth="150.0" styleClass="combo-box-base" value="Pfizer" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="185.0">
-                      <items>
-                          <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="Pfizer" />
-                              <String fx:value="AstraZeneca" />
-                              <String fx:value="Moderna" />
-                              <String fx:value="J&amp;J" />
-                          </FXCollections>
-                      </items>
-                  </ChoiceBox>
-                  <ButtonBar layoutX="294.0" layoutY="278.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                    <buttons>
-                      <Button id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" styleClass="but" text="Annulla" />
-                        <Button id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCittadino" styleClass="but" text="Registra" />
-                    </buttons>
-                  </ButtonBar>
-                  <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="225.0" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" layoutX="198.0" layoutY="22.0" text="Registrazione Cittadino" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="Segoe UI Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <ChoiceBox fx:id="centro" layoutX="145.0" layoutY="35.0" prefWidth="150.0" value="Predef" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            <Label layoutX="48.0" layoutY="18.0" text="Centro di vaccinazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0" />
+            <Label alignment="CENTER" layoutX="21.0" layoutY="50.0" text="Dati cittadino" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="84.0" text="Nome" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="83.0" />
+            <TextField fx:id="nome" layoutX="66.0" layoutY="77.0" styleClass="text-field-u" AnchorPane.leftAnchor="59.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="80.0" />
+            <Label layoutX="235.0" layoutY="83.0" text="Cognome" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="83.0" />
+            <TextField fx:id="cognome" layoutX="303.0" layoutY="79.0" styleClass="text-field-u" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
+            <Label layoutX="12.0" layoutY="119.0" text="Cod. Fiscale" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="118.0" />
+            <TextField fx:id="codFiscale" layoutX="100.0" layoutY="114.0" styleClass="text-field-u" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="115.0" />
+            <DatePicker fx:id="dataSomm" layoutX="152.0" layoutY="153.0" nodeOrientation="LEFT_TO_RIGHT" styleClass="date-picker" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="150.0" />
+            <Label layoutX="27.0" layoutY="145.0" text="Data somministrazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="153.0" />
+            <Label layoutX="12.0" layoutY="189.0" text="Vaccino" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="188.0" />
+            <ChoiceBox fx:id="vaccino" layoutX="67.0" layoutY="181.0" prefWidth="150.0" styleClass="combo-box-base" value="Pfizer" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="185.0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Pfizer" />
+                        <String fx:value="AstraZeneca" />
+                        <String fx:value="Moderna" />
+                        <String fx:value="J&amp;J" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <ButtonBar layoutX="294.0" layoutY="278.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+              <buttons>
+                <Button id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" styleClass="but" text="Annulla" />
+                  <Button id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCittadino" styleClass="but" text="Registra" />
+              </buttons>
+            </ButtonBar>
+            <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="225.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
