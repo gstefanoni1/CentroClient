@@ -291,6 +291,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
 
         if (packet instanceof GetVaccinesResponse){
             GetVaccinesResponse res = (GetVaccinesResponse) packet;
+            vaccino.getItems().removeAll();
             if(res.isEsito()){
                 for (Vaccino v : res.getVaccines()){
                     vaccino.getItems().add(v.getNome());
