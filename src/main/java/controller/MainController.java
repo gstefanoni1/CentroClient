@@ -92,7 +92,7 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        client = new ClientHandler();
+        client = ClientHandler.getInstance();
         try {
             client.connect();
         } catch (Exception e) {
