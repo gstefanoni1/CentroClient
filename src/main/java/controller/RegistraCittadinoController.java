@@ -7,7 +7,11 @@ import datatypes.Vaccinato;
 import datatypes.Vaccinazione;
 import datatypes.Vaccino;
 import datatypes.protocolmessages.*;
+import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,11 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -80,11 +86,20 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     /**
      * nomiCV per inswerire i nomi di tutti i centri all'interno di ChoiceBox<String> centro
      */
-    private ObservableList<String> nomiCV;
+    private ListProperty<String> nomiCV;
     /**
      * centroSel per salvare temporaneamente il centro selezionato in ChoiceBox<String> centro
      */
     private CentroVaccinale centroSel;
+    /**
+     * lista per salvare i vaccini disponibili
+     */
+    private ArrayList<Vaccino> vaccini;
+    /**
+     * vaccino selezionato
+     */
+    private Vaccino vaccinoSel;
+
     /**
      * client è l'istanza del client connesso al server
      */
@@ -117,16 +132,11 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         vaccinazione.setVaccinato(vaccinato);
         vaccinazione.setCentroVaccinale(centroSel);
 
-        //default time zone
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        //local date + atStartOfDay() + default time zone + toInstant() = Date
-        Date date = Date.from(dataSomm.getValue().atStartOfDay(defaultZoneId).toInstant());
-        vaccinazione.setDataVaccinazione(date);
-        vaccinazione.setVaccino(new Vaccino(vaccino.getValue()));
-
+        java.sql.Date gettedDatePickerDate = java.sql.Date.valueOf(dataSomm.getValue());
+        vaccinazione.setDataVaccinazione(gettedDatePickerDate);
+        setVaccinoSel(vaccino.getValue());
+        vaccinazione.setVaccino(vaccinoSel);
         client.insertVaccination(vaccinazione);
-
-
     }
 
     /**
@@ -135,6 +145,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
      */
     private boolean verificaCampi() {
         boolean verified = true;
+        codFiscale.setText(codFiscale.getText().replace(" ", ""));
         if (nome.getText().equals(""))
             verified = setColorBorder(nome, "red");
         else
@@ -161,14 +172,14 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             }
         }
 
-        if (dataSomm.getValue().equals(""))
+        if (dataSomm.getValue() == null)
             verified = setColorBorder(dataSomm, "red");
         else {
             setColorBorder(dataSomm, "transparent");
             date = dataSomm.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
 
-        if (centro.getValue().equals(""))
+        if (centro.getValue() == null || centro.getValue().equals(""))
             verified = setColorBorder(centro, "red");
         else
             setColorBorder(centro, "transparent");
@@ -212,6 +223,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        centriVaccinali = new ArrayList<>();
+        vaccini = new ArrayList<>();
+        nomiCV = new SimpleListProperty<>(FXCollections.observableArrayList());
         client = ClientHandler.getInstance();
         this.client.addListener(GetCVResponse.class.toString(), this);
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
@@ -247,6 +261,13 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         }
     }
 
+    private void setVaccinoSel(String vaccino){
+        for(Vaccino v: vaccini){
+            if(v.getNome().equals(vaccino))
+                vaccinoSel = v;
+        }
+    }
+
     /**
      * Metodo per gestire la ricezione dei pacchetti: RegistrationVaccinatedResponse, GetCVResponse
      * @param packet pacchetto ricevuto
@@ -258,19 +279,31 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             System.out.println(res.getPacketName() + " " + res.isEsito());
             if (res.isEsito()) {
                 id = res.getChiave();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Informazioni cittadino: " + codFiscale.getText());
-                alert.setHeaderText(null);
-                alert.setContentText("ID vaccinazione: " + id);
-                alert.showAndWait();
+                Platform.runLater(() -> {
+                    String txt = "Vaccinazione registrata con successo.\n" + "ID vaccinazione: " + id;
+                    TextArea textArea = new TextArea(txt);
+                    textArea.setEditable(false);
+                    textArea.setWrapText(true);
+                    GridPane gridPane = new GridPane();
+                    gridPane.setMaxWidth(Double.MAX_VALUE);
+                    gridPane.add(textArea, 0, 0);
 
-                chiudi();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informazioni cittadino: " + codFiscale.getText());
+                    alert.setHeaderText(null);
+                    alert.getDialogPane().setContent(gridPane);
+                    alert.showAndWait();
+
+                    chiudi();
+                });
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore");
-                alert.setHeaderText(null);
-                alert.setContentText("Errore nell'invio delle informazioni, riprovare");
-                alert.showAndWait();
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Errore nell'invio delle informazioni, riprovare");
+                    alert.showAndWait();
+                });
             }
         }
 
@@ -293,6 +326,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             GetVaccinesResponse res = (GetVaccinesResponse) packet;
             vaccino.getItems().removeAll();
             if(res.isEsito()){
+                vaccini.addAll(res.getVaccines());
                 for (Vaccino v : res.getVaccines()){
                     vaccino.getItems().add(v.getNome());
                 }

@@ -97,6 +97,7 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client = ClientHandler.getInstance();
         if(!client.isConnected()) {
+            //SE IL CLIENT NON E' CONNESSO
             try {
                 if(!client.connect()){
                     buttCentro.setDisable(true);
@@ -110,6 +111,10 @@ public class MainController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            //IL CLIENT E' CONNESSO
+            serverError.setVisible(false);
         }
     }
 

@@ -4,6 +4,7 @@ import client.PacketReceivedListener;
 import datatypes.CentroVaccinale;
 import datatypes.protocolmessages.Packet;
 import datatypes.protocolmessages.RegistrationCVResponse;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -151,18 +152,22 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
             RegistrationCVResponse res = (RegistrationCVResponse) packet;
             System.out.println(res.getPacketName() + " " + res.isEsito());
             if(res.isEsito()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Conferma");
-                alert.setHeaderText(null);
-                alert.setContentText("Centro vaccinale creato");
-                alert.showAndWait();
-                chiudi();
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Conferma");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Centro vaccinale creato");
+                    alert.showAndWait();
+                    chiudi();
+                });
             }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore");
-                alert.setHeaderText(null);
-                alert.setContentText("Errore nell'invio delle informazioni, riprovare");
-                alert.showAndWait();
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Errore nell'invio delle informazioni, riprovare");
+                    alert.showAndWait();
+                });
             }
         }
     }

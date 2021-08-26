@@ -43,10 +43,6 @@
             <ChoiceBox fx:id="vaccino" layoutX="67.0" layoutY="181.0" prefWidth="150.0" styleClass="combo-box-base" value="Pfizer" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="185.0">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Pfizer" />
-                        <String fx:value="AstraZeneca" />
-                        <String fx:value="Moderna" />
-                        <String fx:value="J&amp;J" />
                     </FXCollections>
                 </items>
             </ChoiceBox>
