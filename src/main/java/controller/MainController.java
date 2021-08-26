@@ -102,6 +102,10 @@ public class MainController implements Initializable {
                     buttCentro.setDisable(true);
                     buttVaccinato.setDisable(true);
                     serverError.setVisible(true);
+                }else{
+                    buttCentro.setDisable(false);
+                    buttVaccinato.setDisable(false);
+                    serverError.setVisible(false);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -115,7 +119,7 @@ public class MainController implements Initializable {
      */
     public void retryConnect(MouseEvent mouseEvent) {
         try {
-            if(client.connect()){
+            if(!client.connect()){
                 buttCentro.setDisable(true);
                 buttVaccinato.setDisable(true);
                 serverError.setVisible(true);
