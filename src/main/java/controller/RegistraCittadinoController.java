@@ -138,6 +138,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         vaccinazione.setDataVaccinazione(gettedDatePickerDate);
         setVaccinoSel(vaccino.getValue());
         vaccinazione.setVaccino(vaccinoSel);
+        //TODO SETTA LA MAIL A VACCINATO
+        //TODO QUINDI vaccinato.setEmail(emailTextField)
+        //TODO OVVIAMENTE DOPO AVER CONTROLLATO SIA UN INDIRIZZO MAIL GIUSTO
         client.insertVaccination(vaccinazione);
     }
 
