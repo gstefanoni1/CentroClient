@@ -48,10 +48,12 @@
             <ButtonBar layoutX="294.0" layoutY="278.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
               <buttons>
                 <Button id="annulla" mnemonicParsing="false" onMouseClicked="#annullaIserimento" styleClass="but" text="Annulla" />
-                  <Button id="crea" mnemonicParsing="false" onMouseClicked="#inserisciCittadino" styleClass="but" text="Registra" />
+                  <Button id="crea" mnemonicParsing="false" onMouseClicked="#verificaEmail" styleClass="but" text="Registra" />
               </buttons>
             </ButtonBar>
-            <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="225.0" />
+            <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="245.0" />
+            <Label layoutX="17.0" layoutY="217.0" text="Email" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="219.0" />
+            <TextField fx:id="email" layoutX="86.0" layoutY="213.0" styleClass="text-field-u" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="217.0" />
          </children>
       </AnchorPane>
    </children>
