@@ -13,12 +13,16 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -57,7 +61,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     @FXML
     private DatePicker dataSomm;
     @FXML
-    private ChoiceBox<String> centro;
+    private static TextField centro;
     @FXML
     private ChoiceBox<String> vaccino;
     @FXML
@@ -197,7 +201,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             date = dataSomm.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
 
-        if (centro.getValue() == null || centro.getValue().equals(""))
+        if (centro.getText().equals(""))
             verified = setColorBorder(centro, "red");
         else
             setColorBorder(centro, "transparent");
@@ -261,22 +265,6 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     private void setNomiList() {
         for (CentroVaccinale c : centriVaccinali) {
             nomiCV.add(c.getNome());
-        }
-        centro.setItems(nomiCV);
-        centro.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue)
-                        -> setCentroSel(newValue));
-    }
-
-    /**
-     * Metodo per settare il centro selezionato in ChoiceBox<String> centro
-     * @param newValue
-     */
-    private void setCentroSel(String newValue) {
-        for (CentroVaccinale cv : centriVaccinali) {
-            if (cv.getNome().equals(newValue))
-                centroSel = cv;
         }
     }
 
@@ -393,6 +381,35 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             thisStage.close();
         }catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void selezionaCentro(MouseEvent mouseEvent) {
+        Parent root;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../view/visualizzaListaCentriLayout.fxml"));
+            fxmlLoader.setController(new VisualizzaListaCentriController(nomiCV));
+            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+            Stage stage = new Stage();
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setCentroTxt(String centroRicerca){
+        centro.setText(centroRicerca);
+    }
+
+    public void setCentroSel(InputMethodEvent inputMethodEvent) {
+        for (CentroVaccinale cv : centriVaccinali) {
+            if (cv.getNome().equals(centro.getText()))
+                centroSel = cv;
         }
     }
 }
