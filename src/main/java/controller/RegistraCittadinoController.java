@@ -125,6 +125,10 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
      * @param mouseEvent
      */
     public void verificaEmail(MouseEvent mouseEvent) {
+        if(email.getText().equals("")){
+            inserisciCittadino();
+            return;
+        }
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email.getText());
         if(matcher.matches())
@@ -348,9 +352,12 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
 
         if (packet instanceof CheckEmailResponse){
             CheckEmailResponse res = (CheckEmailResponse) packet;
-            if(res.isEsito()) {
+            if(!res.isEsito()) {
                 verificaEmailDB = true;
                 inserisciCittadino();
+            }
+            else{
+                setColorBorder(email,"red");
             }
         }
     }
