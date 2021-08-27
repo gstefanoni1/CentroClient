@@ -12,12 +12,10 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -27,14 +25,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -67,15 +60,19 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     private ChoiceBox<String> centro;
     @FXML
     private ChoiceBox<String> vaccino;
+    @FXML
+    private TextField email;
     //endregion
     /**
      * date utilizzata per la formattazione in tipo Date e inserimento in vaccinazione
      */
     private String date;
     /**
-     * Regex per verificare il codice fiscale
+     * Regex per verificare il codice fiscale e email
      */
     private static final String COD_FISCALE_REGEX = "^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$";
+    private static final String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+    private boolean verificaEmailDB = false;
     /**
      * pattern e matcher sono utilizzate pre verificare le regex
      */
@@ -123,12 +120,30 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
      * Metodo invocato dal bottone @crea al click, per inserire il cittadino appena vaccinato a DB
      * @param mouseEvent
      */
-    public void inserisciCittadino(MouseEvent mouseEvent) {
+    public void verificaEmail(MouseEvent mouseEvent) {
+        pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+        matcher = pattern.matcher(email.getText());
+        if(matcher.matches())
+            client.requestEmailCheck(email.getText());
+        else{
+            Platform.runLater(() -> {
+                Alert alertEmail = new Alert(Alert.AlertType.ERROR);
+                alertEmail.setTitle("");
+                alertEmail.setHeaderText("Errore nella compilazione dei campi");
+                alertEmail.setContentText("Email non valida");
+
+                alertEmail.showAndWait();
+            });
+        }
+    }
+
+    private void inserisciCittadino(){
         if (!verificaCampi()) return;
         Vaccinato vaccinato = new Vaccinato();
         vaccinato.setNome(nome.getText());
         vaccinato.setCognome(cognome.getText());
         vaccinato.setCodiceFiscale(codFiscale.getText());
+        vaccinato.setEmail(email.getText());
 
         Vaccinazione vaccinazione = new Vaccinazione();
         vaccinazione.setVaccinato(vaccinato);
@@ -138,9 +153,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         vaccinazione.setDataVaccinazione(gettedDatePickerDate);
         setVaccinoSel(vaccino.getValue());
         vaccinazione.setVaccino(vaccinoSel);
-        //TODO SETTA LA MAIL A VACCINATO
-        //TODO QUINDI vaccinato.setEmail(emailTextField)
-        //TODO OVVIAMENTE DOPO AVER CONTROLLATO SIA UN INDIRIZZO MAIL GIUSTO
+
         client.insertVaccination(vaccinazione);
     }
 
@@ -234,6 +247,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         client = ClientHandler.getInstance();
         this.client.addListener(GetCVResponse.class.toString(), this);
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
+        this.client.addListener(CheckEmailResponse.class.toString(), this);
         this.client.addListener(GetVaccinesResponse.class.toString(), this);
         client.getAllCV();
         client.getVaccines();
@@ -341,6 +355,14 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
                 alert.setContentText("Impossibile recuperare informazioni dal server");
                 alert.showAndWait();
                 chiudi();
+            }
+        }
+
+        if (packet instanceof CheckEmailResponse){
+            CheckEmailResponse res = (CheckEmailResponse) packet;
+            if(res.isEsito()) {
+                verificaEmailDB = true;
+                inserisciCittadino();
             }
         }
     }
