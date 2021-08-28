@@ -85,11 +85,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     /**
      * centriVaccinali contiene la lista di tutti i centri vaccinali
      */
-    private ArrayList<CentroVaccinale> centriVaccinali;
-    /**
-     * nomiCV per inswerire i nomi di tutti i centri all'interno di ChoiceBox<String> centro
-     */
-    private static ListProperty<String> nomiCV;
+    private static ArrayList<CentroVaccinale> centriVaccinali;
     /**
      * centroSel per salvare temporaneamente il centro selezionato in ChoiceBox<String> centro
      */
@@ -205,7 +201,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             date = dataSomm.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
 
-        if (centro.getText().equals(""))
+        if (centro.getText() == null || centro.getText().equals(""))
             verified = setColorBorder(centro, "red");
         else
             setColorBorder(centro, "transparent");
@@ -251,7 +247,6 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     public void initialize(URL url, ResourceBundle resourceBundle) {
         centriVaccinali = new ArrayList<>();
         vaccini = new ArrayList<>();
-        nomiCV = new SimpleListProperty<>(FXCollections.observableArrayList());
         client = ClientHandler.getInstance();
         this.client.addListener(GetCVResponse.class.toString(), this);
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
@@ -260,16 +255,6 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         client.getAllCV();
         client.getVaccines();
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
-    }
-
-    /**
-     * Metodo per caricare i nomi dei Centri allinterno di ChoiceBox<String> centro,
-     * inoltre aggiunge un listener per verificare il cambiamento di item selezionato
-     */
-    private void setNomiList() {
-        for (CentroVaccinale c : centriVaccinali) {
-            nomiCV.add(c.getNome());
-        }
     }
 
     private void setVaccinoSel(String vaccino){
@@ -323,7 +308,6 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             if(res.isEsito()) {
                 List<CentroVaccinale> list = res.getCvList();
                 centriVaccinali.addAll(list);
-                setNomiList();
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Errore");
@@ -402,8 +386,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
-            centro.setText(VisualizzaListaCentriController.getSelezione());
-            setCentroSel();
+            if(VisualizzaListaCentriController.getSelezione() != null)
+                centro.setText(VisualizzaListaCentriController.getSelezione().getNome());
+            centroSel = VisualizzaListaCentriController.getSelezione();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -411,14 +396,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     }
 
 
-    public void setCentroSel() {
-        for (CentroVaccinale cv : centriVaccinali) {
-            if (cv.getNome().equals(centro.getText()))
-                centroSel = cv;
-        }
-    }
-
-    public static ListProperty<String> getNomiCV(){
-        return nomiCV;
+    public static ListProperty<CentroVaccinale> getNomiCV(){
+        ListProperty<CentroVaccinale> output = new SimpleListProperty<>(FXCollections.observableArrayList());
+        output.addAll(centriVaccinali);
+        return output;
     }
 }

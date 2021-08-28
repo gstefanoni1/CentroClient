@@ -1,5 +1,6 @@
 package controller;
 import client.ClientHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -52,6 +53,10 @@ public class MainController implements Initializable {
             stage.setTitle("Registra Centro Vaccinale");
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
             stage.setScene(scene);
+            stage.setOnCloseRequest(event -> {
+                Platform.exit();
+                System.exit(0);
+            });
             stage.setResizable(false);
             stage.show();
             Node source = (Node) mouseEvent.getSource();
@@ -76,6 +81,10 @@ public class MainController implements Initializable {
             stage.setTitle("Registra Cittadino");
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
             stage.setScene(scene);
+            stage.setOnCloseRequest(event -> {
+                Platform.exit();
+                System.exit(0);
+            });
             stage.setResizable(false);
             stage.show();
 
