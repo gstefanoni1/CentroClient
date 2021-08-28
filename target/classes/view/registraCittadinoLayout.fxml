@@ -53,7 +53,7 @@
             <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="245.0" />
             <Label layoutX="17.0" layoutY="217.0" text="Email" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="219.0" />
             <TextField fx:id="email" layoutX="86.0" layoutY="213.0" styleClass="text-field-u" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="217.0" />
-            <TextField fx:id="centro" editable="false" layoutX="166.0" layoutY="7.0" onInputMethodTextChanged="#setCentroSel" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="7.0" />
+            <TextField fx:id="centro" editable="false" layoutX="166.0" layoutY="7.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="7.0" />
             <Button layoutX="374.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#selezionaCentro" styleClass="but" text="Seleziona" AnchorPane.leftAnchor="360.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>

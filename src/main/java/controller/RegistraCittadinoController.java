@@ -403,6 +403,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
             stage.setResizable(false);
             stage.showAndWait();
             centro.setText(VisualizzaListaCentriController.getSelezione());
+            setCentroSel();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -410,7 +411,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     }
 
 
-    public void setCentroSel(InputMethodEvent inputMethodEvent) {
+    public void setCentroSel() {
         for (CentroVaccinale cv : centriVaccinali) {
             if (cv.getNome().equals(centro.getText()))
                 centroSel = cv;
