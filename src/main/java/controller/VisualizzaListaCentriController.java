@@ -3,12 +3,16 @@ package controller;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class VisualizzaListaCentriController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class VisualizzaListaCentriController implements Initializable {
     /**
      * Variqabili FXML
      */
@@ -19,14 +23,9 @@ public class VisualizzaListaCentriController {
     private ListView lista;
     //endregion
 
+    private static String selezione;
     private ListProperty<String> listaCompleta;
     private ListProperty<String> listaFiltrata;
-
-    public VisualizzaListaCentriController(ListProperty<String> nomiCV){
-        listaCompleta = nomiCV;
-        lista.getItems().addAll(nomiCV);
-        listaFiltrata = new SimpleListProperty<>();
-    }
 
     public void ricerca(MouseEvent mouseEvent) {
         listaFiltrata.removeAll();
@@ -43,7 +42,18 @@ public class VisualizzaListaCentriController {
     }
 
     public void seleziona(MouseEvent mouseEvent) {
-        RegistraCittadinoController.setCentroTxt(lista.getSelectionModel().getSelectedItem().toString());
+        selezione = lista.getSelectionModel().getSelectedItem().toString();
         annulla(mouseEvent);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        listaCompleta = RegistraCittadinoController.getNomiCV();
+        lista.getItems().addAll(listaCompleta);
+        listaFiltrata = new SimpleListProperty<>();
+    }
+
+    public static String getSelezione() {
+        return selezione;
     }
 }

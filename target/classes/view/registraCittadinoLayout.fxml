@@ -23,7 +23,6 @@
       </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <children>
-            <ChoiceBox fx:id="centro" layoutX="145.0" layoutY="35.0" prefWidth="150.0" value="Seleziona centro" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
             <Label layoutX="48.0" layoutY="18.0" text="Centro di vaccinazione" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0" />
             <Label alignment="CENTER" layoutX="21.0" layoutY="50.0" text="Dati cittadino" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
                <font>
@@ -54,6 +53,8 @@
             <Label layoutX="17.0" layoutY="229.0" text="**Tutti i campi sono obbligatori" textFill="#dc0000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="245.0" />
             <Label layoutX="17.0" layoutY="217.0" text="Email" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="219.0" />
             <TextField fx:id="email" layoutX="86.0" layoutY="213.0" styleClass="text-field-u" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="217.0" />
+            <TextField fx:id="centro" editable="false" layoutX="166.0" layoutY="7.0" onInputMethodTextChanged="#setCentroSel" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="7.0" />
+            <Button layoutX="374.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#selezionaCentro" styleClass="but" text="Seleziona" AnchorPane.leftAnchor="360.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>
    </children>

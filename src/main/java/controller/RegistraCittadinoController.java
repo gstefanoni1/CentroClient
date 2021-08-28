@@ -61,7 +61,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     @FXML
     private DatePicker dataSomm;
     @FXML
-    private static TextField centro;
+    private TextField centro;
     @FXML
     private ChoiceBox<String> vaccino;
     @FXML
@@ -89,7 +89,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     /**
      * nomiCV per inswerire i nomi di tutti i centri all'interno di ChoiceBox<String> centro
      */
-    private ListProperty<String> nomiCV;
+    private static ListProperty<String> nomiCV;
     /**
      * centroSel per salvare temporaneamente il centro selezionato in ChoiceBox<String> centro
      */
@@ -396,27 +396,28 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../view/visualizzaListaCentriLayout.fxml"));
-            fxmlLoader.setController(new VisualizzaListaCentriController(nomiCV));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             Stage stage = new Stage();
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.show();
+            stage.showAndWait();
+            centro.setText(VisualizzaListaCentriController.getSelezione());
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void setCentroTxt(String centroRicerca){
-        centro.setText(centroRicerca);
-    }
 
     public void setCentroSel(InputMethodEvent inputMethodEvent) {
         for (CentroVaccinale cv : centriVaccinali) {
             if (cv.getNome().equals(centro.getText()))
                 centroSel = cv;
         }
+    }
+
+    public static ListProperty<String> getNomiCV(){
+        return nomiCV;
     }
 }
