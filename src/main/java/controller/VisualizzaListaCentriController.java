@@ -2,6 +2,8 @@ package controller;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -10,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class VisualizzaListaCentriController implements Initializable {
@@ -28,12 +31,15 @@ public class VisualizzaListaCentriController implements Initializable {
     private ListProperty<String> listaFiltrata;
 
     public void ricerca(MouseEvent mouseEvent) {
-        listaFiltrata.removeAll();
+
+        ObservableList<String> simple = FXCollections.observableArrayList();
         for(String s : listaCompleta){
             if(s.contains(filtro.getText())){
-                listaFiltrata.add(s);
+                simple.add(s);
             }
         }
+        listaFiltrata = new SimpleListProperty<String>(simple);
+        lista.setItems(listaFiltrata);
     }
 
     public void annulla(MouseEvent mouseEvent) {
