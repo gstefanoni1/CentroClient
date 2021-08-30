@@ -84,7 +84,8 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         cv.setQualificatore(qualificatore.getValue());
         cv.setSiglaProvincia(provincia.getText());
 
-        client.insertCV(cv);
+        if(!client.insertCV(cv))
+            Platform.runLater(this::connessionePersa);
     }
     /**
      * Metodo invocato da inserisciCentro(MouseEvent mouseEvent), per verificare la corretta compilazione dei campi
@@ -211,5 +212,12 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Metodo invocato in caso di connessione persa, riporta alla home per la riconnesione
+     */
+    private void connessionePersa() {
+        chiudi();
     }
 }
