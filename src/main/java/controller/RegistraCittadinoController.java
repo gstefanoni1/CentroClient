@@ -130,7 +130,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         matcher = pattern.matcher(email.getText());
         if(matcher.matches())
             if(!client.requestEmailCheck(email.getText()))
-                connessionePersa();
+                Platform.runLater(this::connessionePersa);
         else{
             Platform.runLater(() -> {
                 Alert alertEmail = new Alert(Alert.AlertType.ERROR);
@@ -164,7 +164,7 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         vaccinazione.setVaccino(vaccinoSel);
 
         if(!client.insertVaccination(vaccinazione))
-            connessionePersa();
+            Platform.runLater(this::connessionePersa);
     }
 
     /**
@@ -259,9 +259,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         this.client.addListener(CheckEmailResponse.class.toString(), this);
         this.client.addListener(GetVaccinesResponse.class.toString(), this);
         if(!client.getAllCV())
-            connessionePersa();
+            Platform.runLater(this::connessionePersa);
         if(!client.getVaccines())
-            connessionePersa();
+            Platform.runLater(this::connessionePersa);
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
     }
 
