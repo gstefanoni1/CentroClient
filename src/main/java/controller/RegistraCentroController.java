@@ -84,8 +84,9 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         cv.setQualificatore(qualificatore.getValue());
         cv.setSiglaProvincia(provincia.getText());
 
-        if(!client.insertCV(cv))
+        if(!client.insertCV(cv)) {
             Platform.runLater(this::connessionePersa);
+        }
     }
     /**
      * Metodo invocato da inserisciCentro(MouseEvent mouseEvent), per verificare la corretta compilazione dei campi

@@ -257,10 +257,14 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
         this.client.addListener(CheckEmailResponse.class.toString(), this);
         this.client.addListener(GetVaccinesResponse.class.toString(), this);
-        if(!client.getAllCV())
+        if(!client.getAllCV()) {
             Platform.runLater(this::connessionePersa);
-        if(!client.getVaccines())
+            return;
+        }
+        if(!client.getVaccines()) {
             Platform.runLater(this::connessionePersa);
+            return;
+        }
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
     }
 
