@@ -83,6 +83,7 @@ public class VisualizzaListaCentriController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listaCompleta = RegistraCittadinoController.getNomiCV();
         listaFiltrata = new SimpleListProperty<>();
+        lista.setItems(listaCompleta);
     }
 
     /**

@@ -128,18 +128,17 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         }
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email.getText());
-        if(matcher.matches())
-            if(!client.requestEmailCheck(email.getText()))
+        if(matcher.matches()) {
+            if (!client.requestEmailCheck(email.getText()))
                 Platform.runLater(this::connessionePersa);
-        else{
-            Platform.runLater(() -> {
+        }
+        else {
+                setColorBorder(email, "red");
                 Alert alertEmail = new Alert(Alert.AlertType.ERROR);
                 alertEmail.setTitle("");
                 alertEmail.setHeaderText("Errore nella compilazione dei campi");
                 alertEmail.setContentText("Email non valida");
-
                 alertEmail.showAndWait();
-            });
         }
     }
 
