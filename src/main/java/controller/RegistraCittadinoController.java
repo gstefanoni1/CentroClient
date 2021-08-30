@@ -117,7 +117,8 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     }
 
     /**
-     * Metodo invocato dal bottone @crea al click, per inserire il cittadino appena vaccinato a DB
+     * Metodo invocato dal bottone @crea al click, verifica l'email e se non è già presente nel DB
+     * se i controlli vanno a buon fine procede con la resgistrazione
      * @param mouseEvent
      */
     public void verificaEmail(MouseEvent mouseEvent) {
@@ -128,7 +129,8 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email.getText());
         if(matcher.matches())
-            client.requestEmailCheck(email.getText());
+            if(!client.requestEmailCheck(email.getText()))
+                connessionePersa();
         else{
             Platform.runLater(() -> {
                 Alert alertEmail = new Alert(Alert.AlertType.ERROR);
@@ -141,6 +143,9 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         }
     }
 
+    /**
+     * Metodo invocato dopo la verifica della mail, inserisce i dati del cittadino nel DB
+     */
     private void inserisciCittadino(){
         if (!verificaCampi()) return;
         Vaccinato vaccinato = new Vaccinato();
@@ -158,7 +163,8 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         setVaccinoSel(vaccino.getValue());
         vaccinazione.setVaccino(vaccinoSel);
 
-        client.insertVaccination(vaccinazione);
+        if(!client.insertVaccination(vaccinazione))
+            connessionePersa();
     }
 
     /**
@@ -252,11 +258,17 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
         this.client.addListener(CheckEmailResponse.class.toString(), this);
         this.client.addListener(GetVaccinesResponse.class.toString(), this);
-        client.getAllCV();
-        client.getVaccines();
+        if(!client.getAllCV())
+            connessionePersa();
+        if(!client.getVaccines())
+            connessionePersa();
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
     }
 
+    /**
+     * Prende dall'elenco dei vaccini il corrispondente selezionato dalla GUI
+     * @param vaccino
+     */
     private void setVaccinoSel(String vaccino){
         for(Vaccino v: vaccini){
             if(v.getNome().equals(vaccino))
@@ -375,6 +387,10 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         }
     }
 
+    /**
+     * Metodo
+     * @param mouseEvent
+     */
     public void selezionaCentro(MouseEvent mouseEvent) {
         Parent root;
         try {
@@ -400,5 +416,12 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         ListProperty<CentroVaccinale> output = new SimpleListProperty<>(FXCollections.observableArrayList());
         output.addAll(centriVaccinali);
         return output;
+    }
+
+    /**
+     * Metodo invocato in caso di connessione persa, riporta alla home per la riconnesione
+     */
+    private void connessionePersa() {
+        chiudi();
     }
 }

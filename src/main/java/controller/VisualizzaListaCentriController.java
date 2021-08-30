@@ -28,10 +28,23 @@ public class VisualizzaListaCentriController implements Initializable {
     private ListView<CentroVaccinale> lista;
     //endregion
 
+    /**
+     * selezione è il CentroVaccinale selezionato da GUI
+     */
     private static CentroVaccinale selezione;
+    /**
+     * listaCompleta è la lista di tutti i CentriVaccinali presenti a DB
+     */
     private ListProperty<CentroVaccinale> listaCompleta;
+    /**
+     * listaFiltrata è la lista dei CentriVaccinali filtrata per il nome
+     */
     private ListProperty<CentroVaccinale> listaFiltrata;
 
+    /**
+     * Metodo invocato sull click del bottone ricerca. Filtra la listaCompleta per il nome
+     * @param mouseEvent
+     */
     public void ricerca(MouseEvent mouseEvent) {
 
         ObservableList<CentroVaccinale> simple = FXCollections.observableArrayList();
@@ -44,23 +57,38 @@ public class VisualizzaListaCentriController implements Initializable {
         lista.setItems(listaFiltrata);
     }
 
+    /**
+     * Metodo invocato dal bottone annulla al click, per chiudere la schermata
+     * @param mouseEvent
+     */
     public void annulla(MouseEvent mouseEvent) {
         Stage thisStage = (Stage) filtro.getScene().getWindow();
         thisStage.close();
     }
-
+    /**
+     * Metodo invocato dal bottone seleziona al click, per salvare il CentroVaccinale selezionato
+     * @param mouseEvent
+     */
     public void seleziona(MouseEvent mouseEvent) {
         selezione = lista.getSelectionModel().getSelectedItem();
         annulla(mouseEvent);
     }
 
+    /**
+     * Metodo invocato durante l'inizializzazione della finestra, Agginge tutti i CentriVaccinali alla lista
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listaCompleta = RegistraCittadinoController.getNomiCV();
-        lista.getItems().addAll(listaCompleta); //FORSE VA CAMBIATO
         listaFiltrata = new SimpleListProperty<>();
     }
 
+    /**
+     * Metodo statico invocato per ricevere il CentroVaccinale selezionato
+     * @return
+     */
     public static CentroVaccinale getSelezione() {
         return selezione;
     }

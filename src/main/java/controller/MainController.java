@@ -110,11 +110,15 @@ public class MainController implements Initializable {
             try {
                 if(!client.connect()){
                     buttCentro.setDisable(true);
+                    buttCentro.setOpacity(0.5);
                     buttVaccinato.setDisable(true);
+                    buttVaccinato.setOpacity(0.5);
                     serverError.setVisible(true);
                 }else{
                     buttCentro.setDisable(false);
+                    buttCentro.setOpacity(1);
                     buttVaccinato.setDisable(false);
+                    buttVaccinato.setOpacity(1);
                     serverError.setVisible(false);
                 }
             } catch (Exception e) {
@@ -135,11 +139,15 @@ public class MainController implements Initializable {
         try {
             if(!client.connect()){
                 buttCentro.setDisable(true);
+                buttCentro.setOpacity(0.5);
                 buttVaccinato.setDisable(true);
+                buttVaccinato.setOpacity(0.5);
                 serverError.setVisible(true);
             }else{
                 buttCentro.setDisable(false);
+                buttCentro.setOpacity(1);
                 buttVaccinato.setDisable(false);
+                buttVaccinato.setOpacity(1);
                 serverError.setVisible(false);
             }
         } catch (Exception e) {
