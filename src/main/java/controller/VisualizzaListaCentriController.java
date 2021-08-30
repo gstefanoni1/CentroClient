@@ -87,7 +87,7 @@ public class VisualizzaListaCentriController implements Initializable {
 
     /**
      * Metodo statico invocato per ricevere il CentroVaccinale selezionato
-     * @return
+     * @return CentroVaccinale selezionato
      */
     public static CentroVaccinale getSelezione() {
         return selezione;
