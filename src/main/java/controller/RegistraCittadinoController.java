@@ -128,18 +128,17 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         }
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email.getText());
-        if(matcher.matches())
-            if(!client.requestEmailCheck(email.getText()))
+        if(matcher.matches()) {
+            if (!client.requestEmailCheck(email.getText()))
                 Platform.runLater(this::connessionePersa);
-        else{
-            Platform.runLater(() -> {
+        }
+        else {
+                setColorBorder(email, "red");
                 Alert alertEmail = new Alert(Alert.AlertType.ERROR);
                 alertEmail.setTitle("");
                 alertEmail.setHeaderText("Errore nella compilazione dei campi");
                 alertEmail.setContentText("Email non valida");
-
                 alertEmail.showAndWait();
-            });
         }
     }
 
@@ -258,10 +257,14 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
         this.client.addListener(RegistrationVaccinatedResponse.class.toString(), this);
         this.client.addListener(CheckEmailResponse.class.toString(), this);
         this.client.addListener(GetVaccinesResponse.class.toString(), this);
-        if(!client.getAllCV())
+        if(!client.getAllCV()) {
             Platform.runLater(this::connessionePersa);
-        if(!client.getVaccines())
+            return;
+        }
+        if(!client.getVaccines()) {
             Platform.runLater(this::connessionePersa);
+            return;
+        }
         dataSomm.getStyleClass().removeIf(style -> style.equals("text-field"));
     }
 
