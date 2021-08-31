@@ -33,6 +33,11 @@ public class ClientHandler {
      * Riferimento a clientHandler
      */
     private static ClientHandler instance = null;
+
+    /**
+     * Indirizzo ip a cui connettersi
+     */
+    private String ipAddress = "localhost";
     /**
      * PORT porta del server in ascolto
      */
@@ -52,6 +57,14 @@ public class ClientHandler {
 
     private ClientHandler(){
         listeners = new ConcurrentHashMap<>();
+    }
+
+    /**
+     * Setta l'indirizzo ip a cui connettersi
+     * @param ipAddress indirizzo a cui connettersi
+     */
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     /**
@@ -98,7 +111,7 @@ public class ClientHandler {
         connector.getFilterChain().addLast("logger", new LoggingFilter());
         connector.setHandler(new ClientConnectionHandler(listeners));
         try {
-            ConnectFuture future = connector.connect(new InetSocketAddress(PORT));
+            ConnectFuture future = connector.connect(new InetSocketAddress(ipAddress, PORT));
             future.awaitUninterruptibly();
             session = future.getSession();
         } catch (RuntimeIoException e) {
@@ -165,6 +178,10 @@ public class ClientHandler {
         return true;
     }
 
+    /**
+     * Invia al server una richiesta di disconnessione
+     * @return true se la richiesta va a buon fine, false altrimenti
+     */
     public boolean requestUserDisconnect(){
         if(!isConnected()) return false;
         session.write(new UserDisconnectRequest());
