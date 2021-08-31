@@ -192,11 +192,11 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
     private void chiudi(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../view/mainLayout.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/mainLayout.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 500, 300);
             Stage stage = new Stage();
             stage.setTitle("Centro Vaccinale");
-            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/img/icon.png"))));
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

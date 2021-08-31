@@ -47,11 +47,11 @@ public class MainController implements Initializable {
         Parent root;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../view/registraCentroLayout.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/registraCentroLayout.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             Stage stage = new Stage();
             stage.setTitle("Registra Centro Vaccinale");
-            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/img/icon.png"))));
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
                 Platform.exit();
@@ -75,11 +75,11 @@ public class MainController implements Initializable {
         Parent root;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../view/registraCittadinoLayout.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/registraCittadinoLayout.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 500, 400);
             Stage stage = new Stage();
             stage.setTitle("Registra Cittadino");
-            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("../img/icon.png"))));
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/img/icon.png"))));
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
                 Platform.exit();
