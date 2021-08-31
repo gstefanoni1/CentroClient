@@ -109,7 +109,7 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         else
             setColorBorder(nCivico, "transparent");
 
-        if (cap.getText().equals(""))
+        if (cap.getText().equals("") || !(cap.getText().length() == 5) || !cap.getText().matches("[0-9]+"))
             verified = setColorBorder(cap, "red");
         else
             setColorBorder(cap, "transparent");
@@ -119,7 +119,7 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
         else
             setColorBorder(comune, "transparent");
 
-        if (provincia.getText().equals(""))
+        if (provincia.getText().equals("") || !(provincia.getText().length() == 2) || !provincia.getText().matches("[a-zA-Z]+"))
             verified = setColorBorder(provincia, "red");
         else
             setColorBorder(provincia, "transparent");
