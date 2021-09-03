@@ -154,7 +154,6 @@ public class RegistraCentroController implements Initializable, PacketReceivedLi
     public void onPacketReceived(Packet packet) {
         if(packet instanceof RegistrationCVResponse){
             RegistrationCVResponse res = (RegistrationCVResponse) packet;
-            System.out.println(res.getPacketName() + " " + res.isEsito());
             if(res.isEsito()) {
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

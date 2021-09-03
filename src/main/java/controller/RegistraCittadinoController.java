@@ -287,7 +287,6 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
     public void onPacketReceived(Packet packet) {
         if (packet instanceof RegistrationVaccinatedResponse) {
             RegistrationVaccinatedResponse res = (RegistrationVaccinatedResponse) packet;
-            System.out.println(res.getPacketName() + " " + res.isEsito());
             if (res.isEsito()) {
                 id = res.getChiave();
                 Platform.runLater(() -> {
