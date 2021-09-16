@@ -355,7 +355,8 @@ public class RegistraCittadinoController implements Initializable, PacketReceive
                 inserisciCittadino();
             }
             else{
-                setColorBorder(email,"red");
+                verificaEmailDB = true;
+                inserisciCittadino();
             }
         }
     }
